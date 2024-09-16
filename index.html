@@ -1,65 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minion</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="app.js"></script>
-</head>
-<body>
-    <div id='minion' class="minion">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Minion</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="app.js"></script>
+    </head>
+    <body>
+        <div id="minion" class="minion">
+            <ul class="hairs">
+                <li class="hair" style="--rotate: -40deg; --left: 15px; --top: 21px; --height: 50px;"></li>
+                <li class="hair" style="--rotate: -40deg; --left: 25px; --top: 7px; --height: 40px;"></li>
+                <li class="hair" style="--rotate: -30deg; --left: 45px; --top: 7px; --height: 40px;"></li>
+                <li class="hair" style="--rotate: -20deg; --left: 55px; --top: 0px; --height: 40px;"></li>
+                <li class="hair" style="--rotate: -6deg; --left: 70px; --top: -17px; --height: 60px;"></li>
+                <li class="hair" style="--rotate: 5deg; --left: 86px; --top: -17px; --height: 45px;"></li>
+                <li class="hair" style="--rotate: 15deg; --left: 100px; --top: -12px; --height: 55px;"></li>
+                <li class="hair" style="--rotate: 27deg; --left: 115px; --top: -12px; --height: 40px;"></li>
+                <li class="hair" style="--rotate: 30deg; --left: 135px; --top: -10px; --height: 40px;"></li>
+                <li class="hair" style="--rotate: 27deg; --left: 145px; --top: -12px; --height: 70px;"></li>
+                <li class="hair" style="--rotate: 36deg; --left: 175px; --top: 7px; --height: 40px;"></li>
+                <li class="hair" style="--rotate: 36deg; --left: 190px; --top: 15px; --height: 60px;"></li>
+            </ul>
 
-        <ul class="hairs">
-          <li class="hair" style="--rotate: -40deg; --left: 15px; --top:21px; --height: 50px;"></li>
-          <li class="hair" style="--rotate: -40deg; --left: 25px; --top: 7px; --height: 40px;"></li>
-          <li class="hair" style="--rotate: -30deg; --left: 45px; --top: 7px; --height: 40px;"></li>
-          <li class="hair" style="--rotate: -20deg; --left: 55px; --top: 0px; --height: 40px;"></li>
-          <li class="hair" style="--rotate: -6deg; --left: 70px; --top: -17px; --height: 60px;"></li>
-          <li class="hair" style="--rotate: 5deg; --left: 86px; --top: -17px; --height: 45px;"></li>
-          <li class="hair" style="--rotate: 15deg; --left: 100px; --top: -12px; --height: 55px;"></li>
-          <li class="hair" style="--rotate: 27deg; --left: 115px; --top: -12px; --height: 40px;"></li>
-          <li class="hair" style="--rotate: 30deg; --left: 135px; --top: -10px; --height: 40px;"></li>
-          <li class="hair" style="--rotate: 27deg; --left: 145px; --top: -12px; --height: 70px;"></li>
-          <li class="hair" style="--rotate: 36deg; --left: 175px; --top: 7px; --height: 40px;"></li>
-          <li class="hair" style="--rotate: 36deg; --left: 190px; --top: 15px; --height: 60px;"></li>
-        </ul>
-      
-        <div class="eye-band">
-          <span>
-            <div class="glasses-holder-container"></div>
-      
-            <div class="glasses">
-              <div class="glasses-line"></div>
-              <div class="screws">
-                <span class="screw"></span>
-                <span class="screw"></span>
-                <span class="screw"></span>
-              </div>
+            <div class="eye-band">
+                <span>
+                    <div class="glasses-holder-container"></div>
+
+                    <div class="glasses">
+                        <div class="glasses-line"></div>
+                        <div class="screws">
+                            <span class="screw"></span>
+                            <span class="screw"></span>
+                            <span class="screw"></span>
+                        </div>
+                    </div>
+                </span>
             </div>
-          </span>
+
+            <div class="mouth"></div>
+            <div class="lower">
+                <div class="carrier" id="carrier"></div>
+
+                <div class="arm">
+                    <span class="arm-gloves"></span>
+                </div>
+
+                <div class="legs">
+                    <div class="leg left-leg">
+                        <span class="shoe"></span>
+                    </div>
+                    <div class="leg right-leg">
+                        <span class="shoe"></span>
+                    </div>
+                </div>
+            </div>
         </div>
-      
-        <div class="mouth"></div>
-        <div class="lower">
-      
-          <div class="carrier" id="carrier"></div>
-      
-          <div class="arm">
-            <span class="arm-gloves"></span>
-          </div>
-      
-          <div class="legs">
-            <div class="leg left-leg">
-              <span class="shoe"></span>
-            </div>
-            <div class="leg right-leg">
-              <span class="shoe"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      
-</body>
+    </body>
 </html>

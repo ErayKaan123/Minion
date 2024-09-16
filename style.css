@@ -6,13 +6,14 @@
     --minion-width: 205px;
     --minion-border-width: 3.5px;
   }
-  
+
   body {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
+    cursor: url("assets/banana-64x64.png"), auto;
+    height: 100vh;
   }
   
   .minion {
