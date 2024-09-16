@@ -1,0 +1,263 @@
+:root {
+    --primary: #ffd600;
+    --secondary: #576ad4;
+    --glasses: #d9d9d9;
+    --black: #000000;
+    --minion-width: 205px;
+    --minion-border-width: 3.5px;
+  }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .minion {
+    position: relative;
+    border-radius: 202px;
+    height: 431px;
+    width: var(--minion-width);
+    background: var(--primary);
+    border: var(--minion-border-width) solid var(--black);
+  }
+  
+  .hairs {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  
+  .hair {
+    position: absolute;
+    background: var(--black);
+    width: 1.5px;
+    height: var(--height);
+    top: var(--top);
+    left: var(--left);
+    transform: rotate(var(--rotate));
+  }
+  
+  .lower {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: var(--secondary);
+    height: 147px;
+    left: 0;
+    border-radius: 0 0 202px 202px;
+  }
+  
+  .eye-band {
+    position: absolute;
+    background: var(--black);
+    height: 20px;
+    width: 100%;
+    top: 90px;
+    display: flex;
+    justify-content: end;
+  }
+  
+  .glasses-holder-container {
+    position: absolute;
+    top: -10px;
+    right: 2px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .glasses-holder-container::after {
+    content: " ";
+    z-index: 1;
+    background: rgb(167, 163, 163);
+    background: linear-gradient(
+      202deg,
+      rgba(167, 163, 163, 1) 13%,
+      rgba(217, 217, 217, 1) 54%
+    );
+    height: 18px;
+    border-radius: 27px;
+    border: 1px solid var(--black);
+    width: 8px;
+  }
+  
+  .glasses-holder-container::before {
+    content: " ";
+    z-index: 1;
+    background: rgb(167, 163, 163);
+    background: linear-gradient(
+      202deg,
+      rgba(167, 163, 163, 1) 13%,
+      rgba(217, 217, 217, 1) 54%
+    );
+    height: 18px;
+    border-radius: 27px;
+    border: 1px solid var(--black);
+    width: 8px;
+  }
+  
+  .glasses {
+    display: flex;
+    position: absolute;
+    height: 60px;
+    width: 30px;
+    background: var(--glasses);
+    border: 1px solid black;
+    border-radius: 11px;
+    top: -20px;
+    right: -25px;
+    background: rgb(167, 163, 163);
+    background: linear-gradient(
+      202deg,
+      rgba(167, 163, 163, 1) 13%,
+      rgba(217, 217, 217, 1) 54%
+    );
+  }
+  
+  .glasses-line {
+    width: 4px;
+    height: 100%;
+    position: absolute;
+    left: 10px;
+    border-color: black;
+    border-width: 0 1px 0 1px;
+    border-style: solid;
+  }
+  
+  .screws {
+    margin: 10px 0;
+    position: absolute;
+    height: 100%;
+    width: 10px;
+    right: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .screw {
+    border: 1px solid var(--black);
+    height: 5px;
+    width: 5px;
+    border-radius: 500px;
+  }
+  
+  .mouth {
+    position: absolute;
+    background: white;
+    width: 70px;
+    height: 30px;
+    top: 170px;
+    right: -40px;
+    border-radius: 0px 0px 0px 110px;
+    border-style: solid;
+    border-width: 0px 0px 0px 2px;
+  }
+  
+  .carrier {
+    top: -120px;
+    position: absolute;
+    border-color: var(--secondary);
+    border-style: solid;
+    border-width: 5px 5px 0 5px;
+    height: 120px;
+    width: 100%;
+    border-radius: 50%/100px 100px 0px 0;
+    box-sizing: border-box;
+  }
+  
+  .arm {
+    position: absolute;
+    background: var(--primary);
+    width: 36px;
+    height: 159px;
+    border: 2px solid black;
+    top: -100px;
+    left: 85px;
+    text-align: center;
+    border-radius: 20px;
+    overflow: hidden;
+    filter: drop-shadow(0px 4px 2px #000000);
+    animation: arm 1s linear infinite;
+    transform-origin: top center;
+  }
+  
+  .arm-gloves {
+    z-index: 10;
+    background: var(--black);
+    height: 40px;
+    width: 36px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .legs {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    justify-content: center;
+  }
+  
+  .leg {
+    position: relative;
+    background: var(--primary);
+    height: 90px;
+    width: 30px;
+    top: 120px;
+    border-radius: 0px;
+    border: 1px solid var(--black);
+    z-index: -1;
+  }
+  
+  .left-leg {
+    animation: leg 1s linear infinite;
+    transform-origin: top center;
+  }
+  
+  .right-leg {
+    animation: leg 1s linear infinite;
+    transform-origin: top center;
+    animation-delay: .5s;
+  
+  }
+  
+  .shoe {
+    background: var(--black);
+    width: 70px;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    top: 62px;
+    border-radius: 0px 50px 15px 0px;
+  }
+  
+  /*Animation*/
+  
+  @keyframes arm {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-36deg);
+    }
+    75% {
+      transform: rotate(36deg);
+    }
+  }
+  
+  @keyframes leg {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-36deg);
+    }
+    75% {
+      transform: rotate(36deg);
+    }
+    
+  }
