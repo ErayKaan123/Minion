@@ -1,7 +1,6 @@
-import Cursor from "./cursor.js"
+import Cursor from "./cursor.js";
 
 export default class Minion {
-
     element;
     speed;
     target;
@@ -12,31 +11,54 @@ export default class Minion {
         this.target = new Cursor();
     }
 
-    checkAllRules() {
-        if (mouseX !== null) {
-            let minionCoordinates = minion.getBoundingClientRect();
-            let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
-            let distance = mouseX - (currentMinionPositionX + minionCoordinates.width);
-            if (distance > speed) {
-                currentMinionPositionX += speed * Math.sign(distance);
-                minion.style.left = (currentMinionPositionX) + 'px';
-            } else if(distance < speed) {
-                
-            }
-            else {
-            }
+    isHunting() {
+        let minionCoordinates = this.element.getBoundingClientRect();
+        let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
+        let distance = this.target.x - (currentMinionPositionX + minionCoordinates.width);
+
+        if (Math.abs(distance) <= this.speed) {
+            return false; 
+        }
+        return true; 
+    }
+
+    move() {
+        let minionCoordinates = this.element.getBoundingClientRect();
+        let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
+        let distance = this.target.x - (currentMinionPositionX + minionCoordinates.width);
+
+        this.setDirection(distance);
+
+        if (Math.abs(distance) > this.speed) {
+            currentMinionPositionX += this.speed * Math.sign(distance);
+            this.element.style.left = currentMinionPositionX + 'px';
         }
     }
 
     render() {
-        //this.checkAllRules();
-        this.move();
-        requestAnimationFrame(this.render.bind(this));
+        if (this.isHunting()) {
+            this.move();
+            requestAnimationFrame(this.render.bind(this));
+        }
+        else {
+            this.won();
+        }
     }
 
-    move() {
-
+    won() {
+        console.log("Minion has eaten the banana")
     }
-    
+
+    setDirection(distance) {
+        const direction = Math.sign(distance);  
+
+        if (direction === 1) {
+            this.element.classList.remove("minion-flip-left");
+            this.element.classList.add("minion-flip-right");
+        } else if (direction === -1) {
+            this.element.classList.remove("minion-flip-right");
+            this.element.classList.add("minion-flip-left");
+        }
+    }
     
 }

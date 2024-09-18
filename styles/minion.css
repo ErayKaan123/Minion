@@ -28,8 +28,13 @@
     border: var(--minion-border-width) solid var(--black);
   }
 
-  .minion-flip-left {
-    -webkit-transform: scaleX(-1);
+  .minion-flip-right {
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+  }
+
+  .minion-flip-left { 
+    -webkit-transform: scaleX(1);
     transform: scaleX(-1);
   }
   
