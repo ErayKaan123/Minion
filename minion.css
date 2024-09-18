@@ -17,12 +17,20 @@
   }
   
   .minion {
-    position: relative;
+    /*margin-left: 40px;*/
+    left: 0;
+    bottom: 260px;
+    position: absolute;
     border-radius: 202px;
     height: 431px;
     width: var(--minion-width);
     background: var(--primary);
     border: var(--minion-border-width) solid var(--black);
+  }
+
+  .minion-flip-left {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
   }
   
   .hairs {
