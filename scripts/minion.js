@@ -15,24 +15,28 @@ export default class Minion {
         let minionCoordinates = this.element.getBoundingClientRect();
         let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
         let currentMinionPositionY = parseInt(minionCoordinates.top) || 0;
+    
+        // Breite und Höhe des Minions
+        let minionWidth = minionCoordinates.width;
+        let minionHeight = minionCoordinates.height;
+    
+        // Position des Mauszeigers (Cursor)
+        let targetX = this.target.x;
+        let targetY = this.target.y;
+    
+        // Überprüfe, ob der Mauszeiger innerhalb der "Hitbox" des Minions ist
         
-        let distanceX = this.target.x - (currentMinionPositionX + minionCoordinates.width);
-        let distanceY = this.target.y - (currentMinionPositionY + minionCoordinates.height);
-    
-        // Überprüfe, ob der Minion in X und Y nah genug ist
-        if (Math.abs(distanceX) <= this.speed) {
-            return false;  // Ziel erreicht, Jagd beendet
-        }
-        return true;  // Distanz zu weit -> Jagd geht weiter
+        let withinXRange = targetX >= (currentMinionPositionX - (this.target.width + this.speed * 2)) && targetX <= (currentMinionPositionX + minionWidth + this.speed * 2);
+        let withinYRange = targetY >= (currentMinionPositionY - this.speed * 2) && targetY <= (currentMinionPositionY + minionHeight + this.speed * 2);
+        // Jagd wird fortgesetzt, wenn der Cursor ausserhalb der Hitbox ist
+        return !(withinXRange && withinYRange);
     }
-    
 
     move() {
         let minionCoordinates = this.element.getBoundingClientRect();
         let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
         let distance = this.target.x - (currentMinionPositionX + minionCoordinates.width);
         this.setDirection(distance);
-
         if (Math.abs(distance) > this.speed) {
             currentMinionPositionX += this.speed * Math.sign(distance);
             this.element.style.left = currentMinionPositionX + 'px';
@@ -46,11 +50,11 @@ export default class Minion {
         }
         else {
             this.won();
+            this.stopAnimation();
         }
     }
 
     won() {
-        this.stopAnimation();
         console.log("Minion has eaten the banana");
     }
 
@@ -67,14 +71,13 @@ export default class Minion {
     }
 
     stopAnimation() {
-        for (let i = 0; i < this.element.children.length; i++) {
-            let child = this.element.children[i];
-            child.getAnimations().forEach((a) => {
-                a.pause();
-            })
-        }
+        this.removeClassFromElement('arm', 'arm-animation-running')
+        this.removeClassFromElement("left-leg", 'left-leg-animation-running');
+        this.removeClassFromElement('right-leg', 'right-leg-animation-running');
     }
-    
-    
-    
+
+    removeClassFromElement(elementId, className) {
+        let element = document.getElementById(elementId);
+        element.classList.remove(className);
+    }
 }

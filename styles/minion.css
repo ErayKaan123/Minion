@@ -195,6 +195,9 @@
     border-radius: 20px;
     overflow: hidden;
     filter: drop-shadow(0px 4px 2px #000000);
+  }
+
+  .arm-animation-running {
     animation: arm 1s linear infinite;
     transform-origin: top center;
   }
@@ -227,12 +230,12 @@
     z-index: -1;
   }
   
-  .left-leg {
+  .left-leg-animation-running {
     animation: leg 1s linear infinite;
     transform-origin: top center;
   }
   
-  .right-leg {
+  .right-leg-animation-running {
     animation: leg 1s linear infinite;
     transform-origin: top center;
     animation-delay: .5s;
