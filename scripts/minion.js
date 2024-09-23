@@ -14,19 +14,23 @@ export default class Minion {
     isHunting() {
         let minionCoordinates = this.element.getBoundingClientRect();
         let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
-        let distance = this.target.x - (currentMinionPositionX + minionCoordinates.width);
-
-        if (Math.abs(distance) <= this.speed) {
-            return false; 
+        let currentMinionPositionY = parseInt(minionCoordinates.top) || 0;
+        
+        let distanceX = this.target.x - (currentMinionPositionX + minionCoordinates.width);
+        let distanceY = this.target.y - (currentMinionPositionY + minionCoordinates.height);
+    
+        // Überprüfe, ob der Minion in X und Y nah genug ist
+        if (Math.abs(distanceX) <= this.speed) {
+            return false;  // Ziel erreicht, Jagd beendet
         }
-        return true; 
+        return true;  // Distanz zu weit -> Jagd geht weiter
     }
+    
 
     move() {
         let minionCoordinates = this.element.getBoundingClientRect();
         let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
         let distance = this.target.x - (currentMinionPositionX + minionCoordinates.width);
-
         this.setDirection(distance);
 
         if (Math.abs(distance) > this.speed) {
@@ -46,7 +50,8 @@ export default class Minion {
     }
 
     won() {
-        console.log("Minion has eaten the banana")
+        this.stopAnimation();
+        console.log("Minion has eaten the banana");
     }
 
     setDirection(distance) {
@@ -60,5 +65,16 @@ export default class Minion {
             this.element.classList.add("minion-flip-left");
         }
     }
+
+    stopAnimation() {
+        for (let i = 0; i < this.element.children.length; i++) {
+            let child = this.element.children[i];
+            child.getAnimations().forEach((a) => {
+                a.pause();
+            })
+        }
+    }
+    
+    
     
 }
