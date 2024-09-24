@@ -55,7 +55,7 @@ export default class Minion {
     }
 
     won() {
-        console.log("Minion has eaten the banana");
+        alert("The Minion has won! It has eaten the banana")
     }
 
     setDirection(distance) {
