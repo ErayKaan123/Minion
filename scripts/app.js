@@ -1,3 +1,2 @@
-import Minion from "./minion.js";
-let minion = new Minion();
-minion.render();
+import Playground from "./playground.js";
+new Playground().render();

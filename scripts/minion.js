@@ -1,6 +1,6 @@
 import Cursor from "./cursor.js";
 
-export default class Minion {
+export class Minion {
     element;
     speed;
     target;
@@ -11,54 +11,45 @@ export default class Minion {
         this.target = new Cursor();
     }
 
-    isHunting() {
+    #isHunting() {
         let minionCoordinates = this.element.getBoundingClientRect();
         let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
         let currentMinionPositionY = parseInt(minionCoordinates.top) || 0;
     
-        // Breite und Höhe des Minions
         let minionWidth = minionCoordinates.width;
         let minionHeight = minionCoordinates.height;
     
-        // Position des Mauszeigers (Cursor)
         let targetX = this.target.x;
         let targetY = this.target.y;
     
-        // Überprüfe, ob der Mauszeiger innerhalb der "Hitbox" des Minions ist
-        
         let withinXRange = targetX >= (currentMinionPositionX - (this.target.width + this.speed * 2)) && targetX <= (currentMinionPositionX + minionWidth + this.speed * 2);
         let withinYRange = targetY >= (currentMinionPositionY - this.speed * 2) && targetY <= (currentMinionPositionY + minionHeight + this.speed * 2);
-        // Jagd wird fortgesetzt, wenn der Cursor ausserhalb der Hitbox ist
+        
         return !(withinXRange && withinYRange);
     }
 
-    move() {
+    #move() {
         let minionCoordinates = this.element.getBoundingClientRect();
         let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
         let distance = this.target.x - (currentMinionPositionX + minionCoordinates.width);
-        this.setDirection(distance);
+        this.#setDirection(distance);
         if (Math.abs(distance) > this.speed) {
             currentMinionPositionX += this.speed * Math.sign(distance);
             this.element.style.left = currentMinionPositionX + 'px';
         }
     }
 
-    render() {
-        if (this.isHunting()) {
-            this.move();
-            requestAnimationFrame(this.render.bind(this));
-        }
-        else {
-            this.won();
-            this.stopAnimation();
+    spawn() {
+        if (this.#isHunting()) { 
+            this.#move(); 
+            return MinionState.Hunting;
+        } else {
+            this.#stopAnimation();
+            return MinionState.Eaten;
         }
     }
 
-    won() {
-        alert("The Minion has won! It has eaten the banana")
-    }
-
-    setDirection(distance) {
+    #setDirection(distance) {
         const direction = Math.sign(distance);  
 
         if (direction === 1) {
@@ -70,14 +61,19 @@ export default class Minion {
         }
     }
 
-    stopAnimation() {
-        this.removeClassFromElement('arm', 'arm-animation-running')
-        this.removeClassFromElement("left-leg", 'left-leg-animation-running');
-        this.removeClassFromElement('right-leg', 'right-leg-animation-running');
+    #stopAnimation() {
+        this.#removeClassFromElement('arm', 'arm-animation-running');
+        this.#removeClassFromElement("left-leg", 'left-leg-animation-running');
+        this.#removeClassFromElement('right-leg', 'right-leg-animation-running');
     }
 
-    removeClassFromElement(elementId, className) {
+    #removeClassFromElement(elementId, className) {
         let element = document.getElementById(elementId);
         element.classList.remove(className);
     }
 }
+
+export const MinionState = Object.freeze({
+    Hunting: "Hunting",
+    Eaten: "Eaten"
+});
