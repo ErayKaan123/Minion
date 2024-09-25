@@ -13,20 +13,21 @@ export class Minion {
 
     #isHunting() {
         let minionCoordinates = this.element.getBoundingClientRect();
-        let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
-        let currentMinionPositionY = parseInt(minionCoordinates.top) || 0;
-    
-        let minionWidth = minionCoordinates.width;
-        let minionHeight = minionCoordinates.height;
+        let minionCenterX = minionCoordinates.left + minionCoordinates.width / 2;
+        let minionCenterY = minionCoordinates.top + minionCoordinates.height / 2;
     
         let targetX = this.target.x;
         let targetY = this.target.y;
     
-        let withinXRange = targetX >= (currentMinionPositionX - (this.target.width + this.speed * 2)) && targetX <= (currentMinionPositionX + minionWidth + this.speed * 2);
-        let withinYRange = targetY >= (currentMinionPositionY - this.speed * 2) && targetY <= (currentMinionPositionY + minionHeight + this.speed * 2);
-        
-        return !(withinXRange && withinYRange);
+        // Berechne die Distanzen zwischen den Mittelpunkten des Minions und des Ziels
+        let distanceX = Math.abs(targetX - minionCenterX);
+        let distanceY = Math.abs(targetY - minionCenterY);
+
+        // Füge einen kleinen Puffer (z.B. 10 Pixel) hinzu, um zu bestimmen, wann der Minion nah genug ist
+        let threshold = 10;
+        return (distanceX <= threshold && distanceY <= threshold);
     }
+
 
     #move() {
         let minionCoordinates = this.element.getBoundingClientRect();

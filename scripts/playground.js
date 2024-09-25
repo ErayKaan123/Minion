@@ -12,10 +12,10 @@ export default class Playground {
 
     render() {
         let minionState = this.#minion.spawn();
-        if (minionState == MinionState.Hunting) {
+        if (minionState === MinionState.Hunting) {
             requestAnimationFrame(this.render.bind(this));
         }
-        else {
+        else if (minionState === MinionState.Eaten) {
             this.#won();
         }
     }
