@@ -21,9 +21,8 @@ export class Minion {
 
     #move() {
         let minionCoordinates = this.element.getBoundingClientRect();
-        let currentMinionPositionX = parseInt(minionCoordinates.left) || 0;
-        let distance = this.target.x - (currentMinionPositionX + minionCoordinates.width);
-        this.#setDirection(distance);
+        let currentMinionPositionX = minionCoordinates.left;
+        let distance = this.target.x - ((currentMinionPositionX + minionCoordinates.right) / 2);
         if (Math.abs(distance) > this.speed) {
             currentMinionPositionX += this.speed * Math.sign(distance);
             this.element.style.left = currentMinionPositionX + 'px';
@@ -35,20 +34,32 @@ export class Minion {
             this.#stopAnimation();
             return MinionState.Eaten;
         } else {
+            this.#validateDirection();
             this.#move();
+            this.#validateRules();
             return MinionState.Hunting;
         }
     }
 
-    #setDirection(distance) {
-        const direction = Math.sign(distance);  
+    #validateDirection() {
+        let minionCoordinates = this.element.getBoundingClientRect();
+        let centerX = (minionCoordinates.x + minionCoordinates.right) / 2;
 
-        if (direction === 1) {
+        if (this.target.x > centerX) {
             this.element.classList.remove("minion-flip-left");
             this.element.classList.add("minion-flip-right");
-        } else if (direction === -1) {
+        } else {
             this.element.classList.remove("minion-flip-right");
             this.element.classList.add("minion-flip-left");
+        }
+    }
+
+    #validateRules() {
+        let minionCoordinates = this.element.getBoundingClientRect();
+        let centerX = (minionCoordinates.x + minionCoordinates.right) / 2;
+        if (centerX === this.target.x) {
+            debugger;
+            this.#stopAnimation();
         }
     }
 
@@ -68,3 +79,8 @@ export const MinionState = Object.freeze({
     Hunting: "Hunting",
     Eaten: "Eaten"
 });
+
+export const Direction = Object.freeze({
+    Left: "Left",
+    Right: "Right"
+})
