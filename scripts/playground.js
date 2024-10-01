@@ -21,6 +21,6 @@ export default class Playground {
     }
 
     #won() {
-        console.log("WON");
+        alert("WON");
     }
 }

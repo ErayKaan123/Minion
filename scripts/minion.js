@@ -11,23 +11,13 @@ export class Minion {
         this.target = new Cursor();
     }
 
-    #isHunting() {
+    #eatenBanana() {
         let minionCoordinates = this.element.getBoundingClientRect();
-        let minionCenterX = minionCoordinates.left + minionCoordinates.width / 2;
-        let minionCenterY = minionCoordinates.top + minionCoordinates.height / 2;
-    
-        let targetX = this.target.x;
-        let targetY = this.target.y;
-    
-        // Berechne die Distanzen zwischen den Mittelpunkten des Minions und des Ziels
-        let distanceX = Math.abs(targetX - minionCenterX);
-        let distanceY = Math.abs(targetY - minionCenterY);
-
-        // Füge einen kleinen Puffer (z.B. 10 Pixel) hinzu, um zu bestimmen, wann der Minion nah genug ist
-        let threshold = 10;
-        return (distanceX <= threshold && distanceY <= threshold);
+        return(
+            (this.target.x < minionCoordinates.right + 10 && this.target.x > minionCoordinates.left) &&
+            (this.target.y < minionCoordinates.bottom && this.target.y > minionCoordinates.top)
+        )
     }
-
 
     #move() {
         let minionCoordinates = this.element.getBoundingClientRect();
@@ -41,12 +31,12 @@ export class Minion {
     }
 
     spawn() {
-        if (this.#isHunting()) { 
-            this.#move(); 
-            return MinionState.Hunting;
-        } else {
+        if (this.#eatenBanana()) { 
             this.#stopAnimation();
             return MinionState.Eaten;
+        } else {
+            this.#move();
+            return MinionState.Hunting;
         }
     }
 
