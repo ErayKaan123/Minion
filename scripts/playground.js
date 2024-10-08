@@ -20,7 +20,15 @@ export default class Playground {
         }
     }
 
+    #showMinionFromFront() {
+        this.#minion.element.style.display = "none";
+        let element = document.getElementById('minionFront');
+        element.style.display = "inline";
+        element.style.left = this.#minion.element.style.left;
+    }
+
     #won() {
-        alert("WON");
+        this.#showMinionFromFront();
+        
     }
 }

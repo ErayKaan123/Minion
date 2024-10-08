@@ -1,17 +1,11 @@
 import Cursor from "./cursor.js";
 
 export class Minion {
-    element;
-    speed;
-    target;
+    element = document.getElementById('minion');
+    speed = 5;
+    target = new Cursor();
 
-    constructor() {
-        this.element = document.getElementById('minion');
-        this.speed = 5;
-        this.target = new Cursor();
-    }
-
-    #eatenBanana() {
+    #hasEatenBanana() {
         let minionCoordinates = this.element.getBoundingClientRect();
         return(
             (this.target.x < minionCoordinates.right + 10 && this.target.x > minionCoordinates.left) &&
@@ -30,8 +24,8 @@ export class Minion {
     }
 
     spawn() {
-        if (this.#eatenBanana()) { 
-            this.#stopAnimation();
+        if (this.#hasEatenBanana()) { 
+            this.#pauseAnimation();
             return MinionState.Eaten;
         } else {
             this.#validateDirection();
@@ -56,23 +50,38 @@ export class Minion {
 
     #validateRules() {
         let minionCoordinates = this.element.getBoundingClientRect();
-        let centerX = (minionCoordinates.x + minionCoordinates.right) / 2;
-        if (centerX === this.target.x) {
-            debugger;
-            this.#stopAnimation();
+        let centerX = (minionCoordinates.left + minionCoordinates.right) / 2;
+        if (Math.abs(centerX - this.target.x) < 5) {
+            this.#pauseAnimation();
+        }
+        else {
+            this.#resumeAnimation();
         }
     }
+    
 
-    #stopAnimation() {
+    #pauseAnimation() {
         this.#removeClassFromElement('arm', 'arm-animation-running');
         this.#removeClassFromElement("left-leg", 'left-leg-animation-running');
         this.#removeClassFromElement('right-leg', 'right-leg-animation-running');
+    }
+
+    #resumeAnimation() {
+        this.#addClassFromElement('arm', 'arm-animation-running');
+        this.#addClassFromElement("left-leg", 'left-leg-animation-running');
+        this.#addClassFromElement('right-leg', 'right-leg-animation-running');
     }
 
     #removeClassFromElement(elementId, className) {
         let element = document.getElementById(elementId);
         element.classList.remove(className);
     }
+
+    #addClassFromElement(elementId, className) {
+        let element = document.getElementById(elementId);
+        element.classList.add(className);
+    }
+
 }
 
 export const MinionState = Object.freeze({
