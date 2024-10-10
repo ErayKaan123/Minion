@@ -11,7 +11,7 @@ export default class Playground {
     }
 
     render() {
-        let minionState = this.#minion.spawn();
+        let minionState = this.#minion.render();
         if (minionState === MinionState.Hunting) {
             requestAnimationFrame(this.render.bind(this));
         }
@@ -19,12 +19,13 @@ export default class Playground {
             this.#won();
         }
     }
-
+    
     #showMinionFromFront() {
         this.#minion.element.style.display = "none";
         let element = document.getElementById('minionFront');
         element.style.display = "inline";
         element.style.left = this.#minion.element.style.left;
+        element.style.top = this.#minion.element.style.top;
     }
 
     #won() {

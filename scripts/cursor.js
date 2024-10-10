@@ -2,7 +2,7 @@ export default class Cursor {
     x;
     y;
     width = 64 // Cursor width with custom image to calculate the distance
-    
+    height = 64; // Cursor height with custom image to calculate the distance
     constructor() {
         document.addEventListener('mousemove', (e) => {
             this.x = e.clientX;
