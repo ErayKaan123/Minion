@@ -1,4 +1,3 @@
-import Cursor from "./cursor.js";
 import {
     addClassFromElement,
     removeClassFromElement
@@ -6,57 +5,59 @@ import {
 
 export class Minion {
     element = document.getElementById('minion');
-    target = new Cursor(); // Target from the Minion
     speed = 5; // The Speed of the Minion
-    jumpDistance = 300; // The Jump distance that has to be to jump
-    jumpStrenght = 10;
-    hasJumped = false;
-    #hasEatenBanana() {
+    currentKey = KeyType.ArrowRight;
+
+    hasEatenBanana(banana) {
         let minionCoordinates = this.element.getBoundingClientRect();
         return(
-            (this.target.x < minionCoordinates.right + 10 && this.target.x > minionCoordinates.left) &&
-            (this.target.y < minionCoordinates.bottom && this.target.y > minionCoordinates.top)
+            (banana.x < minionCoordinates.right + 10 && banana.x > minionCoordinates.left) &&
+            (banana.y < minionCoordinates.bottom && banana.y > minionCoordinates.top)
         )
     }
 
-    #move() {
+    constructor() {
+        document.addEventListener('keydown', (e) => this.#validateDirection(e))
+    }
+
+    move() {
         let minionCoordinates = this.element.getBoundingClientRect();
         let currentMinionPositionX = minionCoordinates.left;
-        let distance = this.target.x - ((currentMinionPositionX + minionCoordinates.right) / 2);
-        if (Math.abs(distance) > this.speed) {
-            currentMinionPositionX += this.speed * Math.sign(distance);
-            this.element.style.left = currentMinionPositionX + 'px';
+        
+        switch(this.currentKey) {
+            case KeyType.ArrowLeft:
+                currentMinionPositionX -= this.speed; //Left
+                break;
+            case KeyType.ArrowRight:
+                currentMinionPositionX += this.speed; // Right
+                break;
         }
 
-        document.addEventListener('keydown', () => {
-            this.#jumpToBanana();
-        })
-    }
-
-    render() {
-        if (this.#hasEatenBanana()) { 
-            this.#pauseAnimation();
-            return MinionState.Eaten;
-        } else {
-            this.#validateDirection();
-            this.#move();
-            this.#validateRules();
-            return MinionState.Hunting;
+        if (currentMinionPositionX > 0 && currentMinionPositionX < (window.innerWidth - this.element.offsetWidth) - 50) {
+            this.element.style.left = `${currentMinionPositionX}px`;
         }
     }
 
-    #validateDirection() {
-        let minionCoordinates = this.element.getBoundingClientRect();
-        let centerX = (minionCoordinates.x + minionCoordinates.right) / 2;
-
-        if (this.target.x > centerX) {
-            this.element.classList.remove("minion-flip-left");
-            this.element.classList.add("minion-flip-right");
-        } else {
-            this.element.classList.remove("minion-flip-right");
-            this.element.classList.add("minion-flip-left");
+    #validateDirection(e) {
+        let keyCode = e.keyCode;
+        
+        switch(keyCode) {
+            case KeyType.ArrowRight:
+            case KeyType.D:
+                this.currentKey = KeyType.ArrowRight;
+                this.element.classList.remove("minion-flip-left");
+                this.element.classList.add("minion-flip-right");
+                break;
+            case KeyType.ArrowLeft:
+            case KeyType.A:
+                this.currentKey = KeyType.ArrowLeft;
+                this.element.classList.remove("minion-flip-right");
+                this.element.classList.add("minion-flip-left");
+                break;
+            
         }
     }
+    
 
     #pauseAnimation() {
         removeClassFromElement('arm', 'arm-animation-running');
@@ -69,65 +70,21 @@ export class Minion {
         addClassFromElement("left-leg", 'left-leg-animation-running');
         addClassFromElement('right-leg', 'right-leg-animation-running');
     };
-
-    #validateRules() {
-        let minionCoordinates = this.element.getBoundingClientRect();
-        let centerX = (minionCoordinates.left + minionCoordinates.right) / 2;
-        if (Math.abs(centerX - this.target.x) < 5) {
-            this.#pauseAnimation();
-            this.#jumpToBanana();
-        }
-        else {
-            this.#resumeAnimation();
-        }
-    }
-
-    #jumpToBanana() {
-        if (this.hasJumped) return;  // Verhindert mehrfaches Springen
-        this.hasJumped = true;  // Markiert den Sprung als ausgeführt
-    
-        // Füge die Klasse für die Arm-Animation hinzu, um sie parallel zum Sprung zu starten
-        addClassFromElement("arm", "arm-animation-jump");
-        setTimeout(() => {
-            let minionPosition = this.element.getBoundingClientRect();
-            let groundLevel = parseInt(minionPosition.top) || 0;
-            let jumpVelocity = -300;
-            const gravityForce = 8;
-        
-            const performJump = () => {
-                jumpVelocity += gravityForce;
-                let newYPosition = groundLevel + jumpVelocity;
-        
-                this.element.style.top = `${newYPosition}px`;
-        
-                // Überprüfe, ob der Minion den Boden erreicht hat
-                if (newYPosition >= groundLevel) {
-                    this.element.style.top = `${groundLevel}px`;
-        
-                    // Entferne die Arm-Animationsklasse, wenn der Minion wieder am Boden ist
-                    removeClassFromElement("arm", "arm-animation-jump");
-        
-                    return;
-                }
-        
-                // Fordere den nächsten Frame für die Animation an
-                requestAnimationFrame(performJump);
-        };
-    
-        // Starte den Sprung parallel zur Arm-Animation
-        performJump();
-        }, 500);
-    }
-    
-    
 }
-
-export const MinionState = Object.freeze({
-    Hunting: "Hunting",
-    Eaten: "Eaten"
-});
 
 export const Direction = Object.freeze({
     Left: "Left",
     Right: "Right"
+})
+
+export const KeyType = Object.freeze({
+    ArrowLeft: 37,
+    ArrowUp: 38,
+    ArrowRight: 39,
+    ArrowDown: 40,
+    A: 65,
+    W: 87,
+    D: 68,
+    S: 83
+    Space: 32
 })
